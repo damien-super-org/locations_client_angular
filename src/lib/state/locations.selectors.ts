@@ -1,5 +1,5 @@
 // here you can define memoized state selectors for the client
-import { reselect } from '../../../../../midgard/modules/store/index';
+import { reselect } from '@midgard/modules/store/index';
 import { LocationState } from './locations.reducer';
 
 const getLocations = state => state.locationsReducer;

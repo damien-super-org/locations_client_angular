@@ -1,5 +1,5 @@
 // here you can define the client reducer
-import { addAll, deleteOne, upsertOne } from '../../../../../midgard/modules/store/reducer.utils';
+import { addAll, deleteOne, upsertOne } from '@midgard/modules/store/reducer.utils';
 import {
   CREATE_LOCATION_COMMIT, DELETE_LOCATION_COMMIT, LOAD_ALL_LOCATIONS_COMMIT, LOAD_ONE_LOCATION_COMMIT,
   UPDATE_LOCATION_COMMIT

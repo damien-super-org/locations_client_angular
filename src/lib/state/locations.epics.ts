@@ -1,5 +1,5 @@
 // client epics goes here
-import { HttpService } from '../../../../../midgard/modules/http/http.service';
+import { HttpService } from '@midgard/modules/http/http.service';
 import { ofType } from 'redux-observable';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
