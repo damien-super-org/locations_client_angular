@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { ClientComponent } from './blueprint-client.component';
+import { ClientComponent } from './locations.component';
 import { MidgardSharedTranslationModule } from '../../../../midgard/modules/translation/translation.shared.module';
-import { ClientRoutingModule } from './blueprint-client-routing.module';
+import { ClientRoutingModule } from './locations-routing.module';
 
 @NgModule({
   imports: [

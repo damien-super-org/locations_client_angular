@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import {ClientComponent} from './blueprint-client.component';
+import {ClientComponent} from './locations.component';
 import { StoreStub } from '../../../../midgard/testing-utilities/stubs';
 import { Store } from '../../../../midgard/modules/store/store';
 

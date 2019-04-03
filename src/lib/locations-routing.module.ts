@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AuthGuard } from '../../../../midgard/modules/oauth/auth.guard';
-import { ClientComponent} from './blueprint-client.component';
+import { ClientComponent} from './locations.component';
 
 const clientRoutes: Routes = [
   { path: '', component: ClientComponent, canActivate: [AuthGuard]},

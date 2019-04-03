@@ -1,19 +1,19 @@
 // here you can define the client reducer
 import { addAll, deleteOne, upsertOne } from '../../../../../midgard/modules/store/reducer.utils';
 import {
-  CREATE_CLIENT_COMMIT, DELETE_CLIENT_COMMIT, LOAD_ALL_CLIENTS_COMMIT, LOAD_ONE_CLIENT_COMMIT,
-  UPDATE_CLIENT_COMMIT
-} from './blueprint-client.actions';
-import {Client} from './blueprint-client.model';
+  CREATE_LOCATION_COMMIT, DELETE_LOCATION_COMMIT, LOAD_ALL_LOCATIONS_COMMIT, LOAD_ONE_LOCATION_COMMIT,
+  UPDATE_LOCATION_COMMIT
+} from './locations.actions';
+import {Location} from './location.model';
 
-export interface ClientState {
-  data: Client[];
+export interface LocationState {
+  data: Location[];
   loaded: false;
   created: false;
   updated: false;
   deleted: false;
 }
-const initialState: ClientState = {
+const initialState: LocationState = {
   data: [],
   loaded: false,
   created: false,
@@ -21,17 +21,17 @@ const initialState: ClientState = {
   deleted: false
 };
 
-export function clientReducer(state = initialState, action) {
+export function locationsReducer(state = initialState, action) {
   switch (action.type) {
-    case LOAD_ALL_CLIENTS_COMMIT:
+    case LOAD_ALL_LOCATIONS_COMMIT:
       return addAll(state, action);
-    case LOAD_ONE_CLIENT_COMMIT:
+    case LOAD_ONE_LOCATION_COMMIT:
       return upsertOne(state, action, 'uuid');
-    case CREATE_CLIENT_COMMIT:
+    case CREATE_LOCATION_COMMIT:
       return upsertOne(state, action, 'uuid');
-    case UPDATE_CLIENT_COMMIT:
+    case UPDATE_LOCATION_COMMIT:
       return upsertOne(state, action, 'uuid');
-    case DELETE_CLIENT_COMMIT:
+    case DELETE_LOCATION_COMMIT:
       return deleteOne(state, action, 'uuid');
     default:
       return state;
