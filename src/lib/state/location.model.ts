@@ -1,5 +1,4 @@
 export interface Location {
-  id?: number;
   uuid: string;
   organisation_uuid: string;
   name: string;
