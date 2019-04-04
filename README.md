@@ -1,12 +1,8 @@
-+++
-title = "Client blueprint (Angular)"
-+++
-
-# Client blueprint (Angular)
+# Locations sample client (Angular)
 
 ## Summary
 
-This is a blueprint client written in [Angular](https://angularjs.org/). 
+This is a sample client for locations service written in [Angular](https://angularjs.org/). 
 
 ## Dependencies
 
