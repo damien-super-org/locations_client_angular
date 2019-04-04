@@ -4,6 +4,18 @@
 
 This is a sample client for locations service written in [Angular](https://angularjs.org/). 
 
+**!important**: before running this client you have to add this line to the styles array in your angular.json file to load
+leaflet(map library used by this client) global styles like this: 
+```
+"midgard-angular": {
+            ...
+            "styles": [
+              "src/styles.scss",
+              "./src/clients/locations/node_modules/leaflet/dist/leaflet.css"
+            ],
+            ...
+```
+
 ## Dependencies
 
 ### npm libraries

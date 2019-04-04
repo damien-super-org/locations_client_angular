@@ -18,7 +18,7 @@ import {
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class LocationEpics {
+export class LocationsEpics {
   /**
    * this is here to handle asynchronous actions and will be triggered when LOAD_DATA_LOCATIONS action is dispatched
    * @param {Observable} action$ - the current action

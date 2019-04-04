@@ -9,7 +9,7 @@ const getLocations = state => state.locationsReducer;
  * @returns {MemoizedSelector<any, any>}
  */
 export const getLocationsState = reselect.createSelector(
-  getClients,
+  getLocations,
   (locationState: LocationState) => {
     if (locationState) {
       return locationState;

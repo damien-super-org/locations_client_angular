@@ -5,5 +5,11 @@
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@asymmetrik/ngx-leaflet": "^4.0.0",
+    "leaflet": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.4.3"
+  }
 }
