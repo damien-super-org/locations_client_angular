@@ -1,0 +1,9 @@
+@import "../../../../../src/styles/global";
+
+.map-container {
+  height: rem-calc(300)
+}
+.map {
+  height: 100%;
+  z-index: 0;
+}

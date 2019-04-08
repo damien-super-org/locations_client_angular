@@ -1,6 +1,21 @@
 <!-- entry component html for the client -->
-<link rel="stylesheet" type="text/css" href="./src/clients/locations/node_modules/leaflet/dist/leaflet.css">
-<div style="height: 300px;"
-     leaflet
-     [leafletOptions]="options">
+<h3>Locations</h3>
+<div class="map-container">
+  <div class="map"
+       leaflet
+       [leafletOptions]="options"
+       [leafletLayers]="options.layers"
+  >
+  </div>
 </div>
+<mg-form
+  #locationsForm
+  [createAction]="'CREATE_LOCATION'"
+  [addButtonText]="'Add Site'"
+  [editButtonText]="'Edit Site'"
+  [formFields]="formFields"
+  [titleProp]="'name'"
+  [createMessage]="'The site has been created'"
+  [updateMessage]="'The product has been updated'"
+>
+</mg-form>
