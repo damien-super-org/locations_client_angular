@@ -31,7 +31,7 @@ export class LocationsComponent implements OnInit {
       iconUrl: 'assets/leaflet/marker-icon.png',
       shadowUrl: 'assets/leaflet/marker-shadow.png'
     }), draggable: true});
-  private options = {
+  private options: any = {
     layers: [
       this.marker,
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, minZoom: 2, attribution: 'Midgard' }),
@@ -47,15 +47,21 @@ export class LocationsComponent implements OnInit {
     this.store.dispatch(setTopBarOptions(null));
     this.defineFormFields();
     this.defineTableOptions();
-    this.onMarkerPositionChanged();
+    this.marker.on('moveend', (evt) => {
+      this.fillLocationForm(evt.target._latlng.lat, evt.target._latlng.lng);
+    });
   }
 
-  addMarkersOnMap(locations) {
+  /**
+   * add the markers of the existing locations on the map
+   * @param {Location[]} locations - current locations
+   */
+  addMarkersOnMap(locations: Location[]) {
     if (locations) {
       // reset markers
       this.options.layers = [this.marker, tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, minZoom: 2, attribution: 'Midgard' })];
       locations.forEach((location: Location) => {
-        const locationMarker = circleMarker([location.latitude, location.longitude], {color: 'green', uniqueID: location.uuid});
+        const locationMarker = circleMarker(latLng(Number(location.latitude), Number(location.longitude)), {color: 'green', className: location.uuid});
         locationMarker.on('click', (event) => {
           this.onMarkerClicked(event);
         });
@@ -93,17 +99,23 @@ export class LocationsComponent implements OnInit {
   }
 
   /**
-   * this function is triggered when the marker position is changed its purpose is to insert the lang long to the form
+   * moves the marker to given coordinates
    */
-  private onMarkerPositionChanged() {
-    this.marker.on('moveend', (evt) => {
-      this.locationsForm.detailsForm.get('latitude').patchValue(evt.target._latlng.lat);
-      this.locationsForm.detailsForm.get('longitude').patchValue(evt.target._latlng.lng);
-      this.getAddressFromLatLng(evt.target._latlng.lat, evt.target._latlng.lng).subscribe(address => {
-        this.locationsForm.detailsForm.get('city').patchValue(address.city || address.state);
-        this.locationsForm.detailsForm.get('country').patchValue(address.country_code.toUpperCase());
-        this.locationsForm.detailsForm.get('postcode').patchValue(address.postcode);
-      });
+  protected moveMarker(lat: number, lng: number) {
+    this.marker.setLatLng(latLng(lat, lng));
+    this.options.center = latLng(lat, lng);
+  }
+
+  /**
+   * fills the location form data from a given coordinates
+   */
+  private fillLocationForm(lat: number, lng: number) {
+    this.locationsForm.detailsForm.get('latitude').patchValue(lat);
+    this.locationsForm.detailsForm.get('longitude').patchValue(lng);
+    this.getAddressFromLatLng(lat, lng).subscribe(address => {
+      this.locationsForm.detailsForm.get('city').patchValue(address.city || address.state);
+      this.locationsForm.detailsForm.get('country').patchValue(address.country_code.toUpperCase());
+      this.locationsForm.detailsForm.get('postcode').patchValue(address.postcode);
     });
   }
 
@@ -127,8 +139,7 @@ export class LocationsComponent implements OnInit {
     this.locationsForm.detailsForm.get('latitude').patchValue(item.latitude);
     this.locationsForm.detailsForm.get('longitude').patchValue(item.longitude);
     // move the marker of the map to the current coordinates
-    this.marker.setLatLng(latLng(item.latitude, item.longitude));
-    this.options.center = latLng(item.latitude, item.longitude);
+    this.moveMarker(item.latitude, item.longitude);
   }
 
   /**
@@ -137,7 +148,7 @@ export class LocationsComponent implements OnInit {
    * @param lng - longitude of the location
    * @returns {Observable}
    */
-  private getAddressFromLatLng(lat: string, lng: string): Observable {
+  private getAddressFromLatLng(lat: number, lng: number): Observable<any> {
     return this.httpService
       .makeRequest('GET', 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&addressdetails=1')
       .pipe(
@@ -147,10 +158,10 @@ export class LocationsComponent implements OnInit {
 
   /**
    * set the form fields when the user clicks on a marker
-   * @param {CircleMarekr} clickedMarker - the clicked marker
+   * @param clickedMarker - the clicked marker
    */
-  protected onMarkerClicked(clickedMarker: CircleMarker) {
-    const clickedLocation = this.crud.rows.find(location => location.uuid === clickedMarker.sourceTarget.options.uniqueID);
+  protected onMarkerClicked(clickedMarker: any) {
+    const clickedLocation = this.crud.rows.find(location => location.uuid === clickedMarker.sourceTarget.options.className);
     this.onLocationClicked(clickedLocation);
   }
 
