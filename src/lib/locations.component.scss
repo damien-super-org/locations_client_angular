@@ -1,9 +1,21 @@
 @import "../../../../../src/styles/global";
 
+.add-location-wrapper {
+  border: 2px solid $primary-color-lighter;
+  display: flex;
+  flex-direction: column;
+}
 .map-container {
+  width: 100%;
   height: rem-calc(300)
 }
 .map {
   height: 100%;
   z-index: 0;
+}
+
+.form-container {
+  width: 100%;
+  padding: rem-calc(15);
+  box-sizing: border-box;
 }

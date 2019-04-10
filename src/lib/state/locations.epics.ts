@@ -27,7 +27,7 @@ export class LocationsEpics {
     return action$.pipe(
       ofType(LOAD_ALL_LOCATIONS),
       switchMap((action: any) => {
-        return this.httpService.makeRequest('get', `${environment.API_URL}/locations/profiletypes/`, {}, true).pipe(
+        return this.httpService.makeRequest('get', `${environment.API_URL}/locations/siteprofiles/`, {}, true).pipe(
           // If successful, dispatch success action with result
           map(res => loadLocationsCommit(res.data)),
           // If request fails, dispatch failed action
@@ -45,7 +45,7 @@ export class LocationsEpics {
     return action$.pipe(
       reduxObservable.ofType(LOAD_ONE_LOCATION),
       switchMap((action: Action) => {
-        return this.httpService.makeRequest('get', `${environment.API_URL}/locations/profiletypes/${action.id}/`, {}, true).pipe(
+        return this.httpService.makeRequest('get', `${environment.API_URL}/locations/siteprofiles/${action.id}/`, {}, true).pipe(
           // If successful, dispatch success action with result
           map((res: Action) => loadOneLocationCommit(res.data)),
           // If request fails, dispatch failed action
@@ -63,7 +63,7 @@ export class LocationsEpics {
     return action$.pipe(
       reduxObservable.ofType(CREATE_LOCATION),
       switchMap((action: Action) => {
-        return this.httpService.makeRequest('post', `${environment.API_URL}/locations/profiletypes/`, action.data, true).pipe(
+        return this.httpService.makeRequest('post', `${environment.API_URL}/locations/siteprofiles/`, action.data, true).pipe(
           // If successful, dispatch success action with result
           map((res: Action) => createLocationCommit(res.data, action.index)),
           // If request fails, dispatch failed action
@@ -83,7 +83,7 @@ export class LocationsEpics {
       switchMap((action: Action) => {
         const payload = {...action.data};
         delete payload['id']; // remove id from payload because we already send it in the url
-        return this.httpService.makeRequest('patch', `${environment.API_URL}/locations/profiletypes/${action.data.id}/`, payload, true).pipe(
+        return this.httpService.makeRequest('patch', `${environment.API_URL}/locations/siteprofiles/${action.data.id}/`, payload, true).pipe(
           // If successful, dispatch success action with result
           map((res: Action) => updateLocationCommit(res.data)),
           // If request fails, dispatch failed action
@@ -101,7 +101,7 @@ export class LocationsEpics {
     return action$.pipe(
       reduxObservable.ofType(DELETE_LOCATION),
       switchMap((action: Action) => {
-        return this.httpService.makeRequest('delete', `${environment.API_URL}/locations/profiletypes/${action.data.id}/`, {},  true).pipe(
+        return this.httpService.makeRequest('delete', `${environment.API_URL}/locations/siteprofiles/${action.data.uuid}/`, {},  true).pipe(
           // If successful, dispatch success action with result
           map(res => deleteLocationCommit(action.data)),
           // If request fails, dispatch failed action

@@ -4,11 +4,15 @@ import { MidgardSharedTranslationModule } from '@midgard/modules/translation/tra
 import { LocationsRoutingModule } from './locations-routing.module';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MidgardFormModule } from '../../../../midgard/modules/form/form.module';
+import { MidgardCrudModule } from '../../../../midgard/modules/crud/crud.module';
+import { MidgardHttpModule } from '../../../../midgard/modules/http/http.module';
 
 @NgModule({
   imports: [
     MidgardSharedTranslationModule,
     MidgardFormModule,
+    MidgardCrudModule,
+    MidgardHttpModule,
     LocationsRoutingModule,
     LeafletModule.forRoot()
   ],

@@ -26,13 +26,13 @@ export function locationsReducer(state = initialState, action) {
     case LOAD_ALL_LOCATIONS_COMMIT:
       return addAll(state, action);
     case LOAD_ONE_LOCATION_COMMIT:
-      return upsertOne(state, action, 'uuid');
+      return upsertOne(state, action, 'uuid', 'results');
     case CREATE_LOCATION_COMMIT:
-      return upsertOne(state, action, 'uuid');
+      return upsertOne(state, action, 'uuid', 'results');
     case UPDATE_LOCATION_COMMIT:
-      return upsertOne(state, action, 'uuid');
+      return upsertOne(state, action, 'uuid', 'results');
     case DELETE_LOCATION_COMMIT:
-      return deleteOne(state, action, 'uuid');
+      return deleteOne(state, action, 'uuid', 'results' );
     default:
       return state;
   }

@@ -1,21 +1,46 @@
 <!-- entry component html for the client -->
 <h3>Locations</h3>
-<div class="map-container">
-  <div class="map"
-       leaflet
-       [leafletOptions]="options"
-       [leafletLayers]="options.layers"
-  >
+<h4>Add Location</h4>
+<p>Please enter the address or specify the coordinates by moving the blue marker on the map to add a location.</p>
+<div class="add-location-wrapper">
+  <div class="form-container">
+    <mg-form
+      #locationsForm
+      [createAction]="'CREATE_LOCATION'"
+      [addButtonText]="'Add Location'"
+      [formFields]="formFields"
+      [titleProp]="'name'"
+      [createMessage]="'The site has been created'"
+      [updateMessage]="'The product has been updated'"
+      (formSubmitted)="onFormSubmitted($event)"
+    >
+    </mg-form>
+  </div>
+  <div class="map-container">
+    <div class="map"
+         leaflet
+         [leafletOptions]="options"
+         [leafletLayers]="options.layers"
+         [(leafletCenter)]="options.center"
+    >
+    </div>
   </div>
 </div>
-<mg-form
-  #locationsForm
-  [createAction]="'CREATE_LOCATION'"
-  [addButtonText]="'Add Site'"
-  [editButtonText]="'Edit Site'"
-  [formFields]="formFields"
-  [titleProp]="'name'"
-  [createMessage]="'The site has been created'"
-  [updateMessage]="'The product has been updated'"
->
-</mg-form>
+<h4>List of Locations</h4>
+<p>Please select a location</p>
+<div class="list_location_wrapper">
+  <mg-crud
+    #crud
+    [loadAction]="'LOAD_ALL_LOCATIONS'"
+    [defaultLayout]="'data-table'"
+    [tableOptions]="tableOptions"
+    [loadedSelector]="crudLoadedSelector"
+    [dataSelector]="crudDataSelector"
+    [deleteAction]="'DELETE_LOCATION'"
+    [deleteMessage]="'The location has been deactivated'"
+    (tableItemClicked)="onLocationClicked($event)"
+    (dataLoadedFromStore)="addMarkersOnMap($event)"
+  >
+  </mg-crud>
+</div>
+

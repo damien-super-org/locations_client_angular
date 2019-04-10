@@ -16,3 +16,27 @@ export const getLocationsState = reselect.createSelector(
     }
   }
 );
+
+/**
+ * selector to get list of locations
+ */
+export const getAllLocations = reselect.createSelector(
+  getLocations,
+  (locations) => {
+    if (locations) {
+      return locations.data.results;
+    }
+  }
+);
+
+/**
+ * selector to check if the data is loaded
+ */
+export const getLocationsLoaded = reselect.createSelector(
+  getLocations,
+  (locations) => {
+    if (locations) {
+      return locations.loaded;
+    }
+  }
+);
