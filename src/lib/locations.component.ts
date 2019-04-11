@@ -123,20 +123,19 @@ export class LocationsComponent implements OnInit {
    * submits the location form
    */
   protected onFormSubmitted() {
-    if (this.locationsForm.detailsForm.value.latitude === '') {
+    if (this.locationsForm.detailsForm.value.latitude !== '') {
+      this.locationsForm.createItem(this.locationsForm.detailsForm.value);
+    } else {
       this.getLatLngFromAddress(
         this.locationsForm.detailsForm.get('city').value,
         null,
         this.locationsForm.detailsForm.get('country').value,
         this.locationsForm.detailsForm.get('postcode').value)
         .subscribe(res => {
-          console.log(res);
           this.locationsForm.detailsForm.get('latitude').patchValue(res[0].lat);
           this.locationsForm.detailsForm.get('longitude').patchValue(res[0].lon);
           this.locationsForm.createItem(this.locationsForm.detailsForm.value);
         });
-    } else {
-      this.locationsForm.createItem(this.locationsForm.detailsForm.value);
     }
   }
 
