@@ -15,7 +15,7 @@
       (formSubmitted)="onSearch($event)"
     >
     </mg-form>
-    <fj-button class="save-button" *ngIf="showSave" (click)="createLocation()">Save Location</fj-button>
+    <fj-button class="save-button" [shape]="'rounded'" [size]="'small'" *ngIf="showSave" (click)="createLocation()">Save Location</fj-button>
   </div>
   <div class="map-container">
     <div class="map"

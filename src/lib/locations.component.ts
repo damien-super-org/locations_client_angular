@@ -115,6 +115,7 @@ export class LocationsComponent implements OnInit {
     this.locationsForm.detailsForm.get('latitude').patchValue(lat);
     this.locationsForm.detailsForm.get('longitude').patchValue(lng);
     this.getAddressFromLatLng(lat, lng).subscribe(address => {
+      this.locationsForm.detailsForm.get('street').patchValue(address.street || address.road);
       this.locationsForm.detailsForm.get('city').patchValue(address.city || address.state);
       this.locationsForm.detailsForm.get('country').patchValue(address.country_code.toUpperCase());
       this.locationsForm.detailsForm.get('postcode').patchValue(address.postcode);
@@ -138,6 +139,7 @@ export class LocationsComponent implements OnInit {
     this.locationsForm.detailsForm.get('latitude').patchValue('');
     this.locationsForm.detailsForm.get('longitude').patchValue('');
     this.getLatLngFromAddress(
+      this.locationsForm.detailsForm.get('address_line1').value,
       this.locationsForm.detailsForm.get('city').value,
       null,
       this.locationsForm.detailsForm.get('country').value,
@@ -182,18 +184,20 @@ export class LocationsComponent implements OnInit {
 
   /**
    * geocoding to get the coordinates from provided address
+   * @param street
    * @param city
    * @param state
    * @param country
    * @param postcode
    * @returns {Observable}
    */
-  private getLatLngFromAddress(city?: string, state?: string, country?: string, postcode?: string): Observable<any> {
+  private getLatLngFromAddress(street?: string, city?: string, state?: string, country?: string, postcode?: string): Observable<any> {
+    const streetParam = street ? '&street=' + street : '';
     const cityParam = city ? '&city=' + city : '';
-    const stateParam = state ? '&state=' + state : '';
     const postcodeParam = postcode ? '&postcode=' + postcode : '';
+    const stateParam = state ? '&state=' + state : '';
     const countryParam = country ? '&country=' + country : '';
-    const params = cityParam + stateParam + countryParam + postcodeParam;
+    const params = streetParam + cityParam + stateParam + countryParam + postcodeParam;
     return this.httpService
       .makeRequest('GET', 'https://nominatim.openstreetmap.org/?format=json' + params)
       .pipe(
