@@ -1,20 +1,21 @@
 <!-- entry component html for the client -->
 <h3>Locations</h3>
 <h4>Add Location</h4>
-<p>Please enter the address or specify the coordinates by moving the blue marker on the map to add a location.</p>
+<p>Please enter the address or specify the coordinates by moving the blue marker on the map and click "Save Location" to add a location marker.</p>
 <div class="add-location-wrapper">
   <div class="form-container">
     <mg-form
       #locationsForm
       [createAction]="'CREATE_LOCATION'"
-      [addButtonText]="'Add Location'"
+      [addButtonText]="'Search'"
       [formFields]="formFields"
       [titleProp]="'name'"
       [createMessage]="'The site has been created'"
       [updateMessage]="'The product has been updated'"
-      (formSubmitted)="onFormSubmitted($event)"
+      (formSubmitted)="onSearch($event)"
     >
     </mg-form>
+    <fj-button class="save-button" *ngIf="showSave" (click)="createLocation()">Save Location</fj-button>
   </div>
   <div class="map-container">
     <div class="map"
@@ -43,4 +44,3 @@
   >
   </mg-crud>
 </div>
-

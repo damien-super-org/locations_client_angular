@@ -1,7 +1,7 @@
 // entry component for the client
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '../../../../midgard/modules/store/store';
-import { CircleMarker, circleMarker, icon, latLng, marker, tileLayer } from 'leaflet';
+import { circleMarker, icon, latLng, marker, tileLayer } from 'leaflet';
 import { FormComponent } from '../../../../midgard/modules/form/form.component';
 import { setTopBarOptions } from '../../../../midgard/state/top-bar/top-bar.actions';
 import { getAllLocations, getLocationsLoaded } from './state/locations.selectors';
@@ -11,6 +11,7 @@ import { Observable, Subscription } from 'rxjs';
 import { CrudComponent } from '../../../../midgard/modules/crud/crud.component';
 import { Location } from './state/location.model';
 import { map } from 'rxjs/internal/operators';
+
 @Component({
   selector: 'lib-locations',
   templateUrl: './locations.component.html',
@@ -24,6 +25,7 @@ export class LocationsComponent implements OnInit {
   protected formFields;
   protected crudLoadedSelector = getLocationsLoaded;
   protected crudDataSelector = getAllLocations;
+  protected showSave = false;
   private marker = marker([ 52.5200, 13.4050 ], {
     icon: icon({
       iconSize: [ 25, 41 ],
@@ -41,7 +43,7 @@ export class LocationsComponent implements OnInit {
   };
   constructor(
     private store: Store<any>,
-    private httpService: HttpService
+    private httpService: HttpService,
   ) {}
   ngOnInit() {
     this.store.dispatch(setTopBarOptions(null));
@@ -116,27 +118,36 @@ export class LocationsComponent implements OnInit {
       this.locationsForm.detailsForm.get('city').patchValue(address.city || address.state);
       this.locationsForm.detailsForm.get('country').patchValue(address.country_code.toUpperCase());
       this.locationsForm.detailsForm.get('postcode').patchValue(address.postcode);
+      this.showSave = true;
     });
   }
 
   /**
-   * submits the location form
+   * sends an action to create the location and resets the form
    */
-  protected onFormSubmitted() {
-    if (this.locationsForm.detailsForm.value.latitude !== '') {
-      this.locationsForm.createItem(this.locationsForm.detailsForm.value);
-    } else {
-      this.getLatLngFromAddress(
-        this.locationsForm.detailsForm.get('city').value,
-        null,
-        this.locationsForm.detailsForm.get('country').value,
-        this.locationsForm.detailsForm.get('postcode').value)
-        .subscribe(res => {
-          this.locationsForm.detailsForm.get('latitude').patchValue(res[0].lat);
-          this.locationsForm.detailsForm.get('longitude').patchValue(res[0].lon);
-          this.locationsForm.createItem(this.locationsForm.detailsForm.value);
-        });
-    }
+  createLocation() {
+    this.locationsForm.createItem(this.locationsForm.detailsForm.value);
+    this.locationsForm.detailsForm.reset();
+    this.showSave = false;
+  }
+
+  /**
+   * It moves the marker to the location that the user searched and fills the form, and shows button to save marker
+   */
+  protected onSearch() {
+    this.locationsForm.detailsForm.get('latitude').patchValue('');
+    this.locationsForm.detailsForm.get('longitude').patchValue('');
+    this.getLatLngFromAddress(
+      this.locationsForm.detailsForm.get('city').value,
+      null,
+      this.locationsForm.detailsForm.get('country').value,
+      this.locationsForm.detailsForm.get('postcode').value)
+      .subscribe(res => {
+        this.locationsForm.detailsForm.get('latitude').patchValue(res[0].lat);
+        this.locationsForm.detailsForm.get('longitude').patchValue(res[0].lon);
+        this.moveMarker(res[0].lat, res[0].lon);
+        this.showSave = true;
+      });
   }
 
   /**

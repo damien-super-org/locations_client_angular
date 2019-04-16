@@ -6,15 +6,19 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MidgardFormModule } from '../../../../midgard/modules/form/form.module';
 import { MidgardCrudModule } from '../../../../midgard/modules/crud/crud.module';
 import { MidgardHttpModule } from '../../../../midgard/modules/http/http.module';
+import { FjButtonModule } from 'freyja-ui';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
+    CommonModule,
     MidgardSharedTranslationModule,
     MidgardFormModule,
     MidgardCrudModule,
     MidgardHttpModule,
+    FjButtonModule,
     LocationsRoutingModule,
-    LeafletModule.forRoot()
+    LeafletModule.forRoot(),
   ],
   declarations: [LocationsComponent],
   exports: [LocationsComponent]
