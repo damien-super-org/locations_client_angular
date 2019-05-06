@@ -10,7 +10,7 @@ import { countries } from './countries';
 import { Observable, Subscription } from 'rxjs';
 import { CrudComponent } from '../../../../midgard/modules/crud/crud.component';
 import { Location } from './state/location.model';
-import { map } from 'rxjs/internal/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'lib-locations',
@@ -49,7 +49,7 @@ export class LocationsComponent implements OnInit {
     this.store.dispatch(setTopBarOptions(null));
     this.defineFormFields();
     this.defineTableOptions();
-    this.marker.on('moveend', (evt) => {
+    this.marker.on('dragend', (evt) => {
       this.fillLocationForm(evt.target._latlng.lat, evt.target._latlng.lng);
     });
   }
@@ -112,14 +112,14 @@ export class LocationsComponent implements OnInit {
    * fills the location form data from a given coordinates
    */
   private fillLocationForm(lat: number, lng: number) {
+    this.showSave = true;
     this.locationsForm.detailsForm.get('latitude').patchValue(lat);
     this.locationsForm.detailsForm.get('longitude').patchValue(lng);
     this.getAddressFromLatLng(lat, lng).subscribe(address => {
-      this.locationsForm.detailsForm.get('street').patchValue(address.street || address.road);
+      this.locationsForm.detailsForm.get('address_line1').patchValue(address.street || address.road);
       this.locationsForm.detailsForm.get('city').patchValue(address.city || address.state);
       this.locationsForm.detailsForm.get('country').patchValue(address.country_code.toUpperCase());
       this.locationsForm.detailsForm.get('postcode').patchValue(address.postcode);
-      this.showSave = true;
     });
   }
 
@@ -141,7 +141,6 @@ export class LocationsComponent implements OnInit {
     this.getLatLngFromAddress(
       this.locationsForm.detailsForm.get('address_line1').value,
       this.locationsForm.detailsForm.get('city').value,
-      null,
       this.locationsForm.detailsForm.get('country').value,
       this.locationsForm.detailsForm.get('postcode').value)
       .subscribe(res => {
@@ -191,13 +190,12 @@ export class LocationsComponent implements OnInit {
    * @param postcode
    * @returns {Observable}
    */
-  private getLatLngFromAddress(street?: string, city?: string, state?: string, country?: string, postcode?: string): Observable<any> {
+  private getLatLngFromAddress(street?: string, city?: string, country?: string, postcode?: string): Observable<any> {
     const streetParam = street ? '&street=' + street : '';
     const cityParam = city ? '&city=' + city : '';
     const postcodeParam = postcode ? '&postcode=' + postcode : '';
-    const stateParam = state ? '&state=' + state : '';
     const countryParam = country ? '&country=' + country : '';
-    const params = streetParam + cityParam + stateParam + countryParam + postcodeParam;
+    const params = streetParam + cityParam + countryParam + postcodeParam;
     return this.httpService
       .makeRequest('GET', 'https://nominatim.openstreetmap.org/?format=json' + params)
       .pipe(

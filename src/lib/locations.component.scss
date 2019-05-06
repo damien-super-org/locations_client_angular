@@ -22,31 +22,6 @@
 
 .save-button{
   position: absolute;
-  z-index: 3;
+  z-index: 1;
   left: 50%;
-}
-
-// context menu styles
-.ngx-contextmenu .dropdown-menu {
-  border: solid 1px chartreuse;
-  background-color: $primary-color-lighter;
-  padding: 0;
-}
-.ngx-contextmenu li {
-  display: block;
-  border-top: solid 1px chartreuse;
-  text-transform: uppercase;
-  text-align: center;
-}
-.ngx-contextmenu li:first-child {
-  border-top:none;
-}
-.ngx-contextmenu a {
-  color:chartreuse;
-  display: block;
-  padding: 0.5em 1em;
-}
-.ngx-contextmenu a:hover {
-  color:darkgreen;
-  background-color:chartreuse;
 }
