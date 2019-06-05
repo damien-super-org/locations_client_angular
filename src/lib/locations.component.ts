@@ -163,6 +163,7 @@ export class LocationsComponent implements OnInit {
     this.locationsForm.detailsForm.get('longitude').patchValue(item.longitude);
     // move the marker of the map to the current coordinates
     this.moveMarker(item.latitude, item.longitude);
+    window.scroll(0, 200);
   }
 
   /**
@@ -210,5 +211,15 @@ export class LocationsComponent implements OnInit {
     this.onLocationClicked(clickedLocation);
   }
 
+  /**
+   * handle actions from the table dropdown
+   * @param {{actionType: string; item: any}} action
+   */
+  handleItemActionClicked( action: {actionType: string, item: any}) {
+    const {actionType, item} = action;
+    if (actionType === 'delete') {
+      this.crud.deleteItem(item);
+    }
+  }
 }
 

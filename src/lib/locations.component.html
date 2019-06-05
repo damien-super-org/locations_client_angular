@@ -40,6 +40,7 @@
     [deleteAction]="'DELETE_LOCATION'"
     [deleteMessage]="'The location has been deactivated'"
     (tableItemClicked)="onLocationClicked($event)"
+    (itemActionClicked)="handleItemActionClicked($event)"
     (dataLoadedFromStore)="addMarkersOnMap($event)"
   >
   </mg-crud>
