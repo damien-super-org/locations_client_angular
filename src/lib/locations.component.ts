@@ -89,13 +89,11 @@ export class LocationsComponent implements OnInit {
   private defineTableOptions() {
     this.tableOptions = {
       columns: [
-        {name: 'Street', prop: 'address_line1', flex: 2, sortable: true, filtering: true},
-        {name: 'City/State', prop: 'city', flex: 2, sortable: true, filtering: true},
-        {name: 'Country', prop: 'country', flex: 2, sortable: true, filtering: false},
-        {name: 'Postcode', prop: 'postcode', flex: 2, sortable: true, filtering: false},
-        {name: 'Lat.', prop: 'latitude', flex: 2, sortable: true, filtering: false},
-        {name: 'Lng.', prop: 'longitude', flex: 2, sortable: true, filtering: false},
-        {name: '', cellTemplate: 'actions', actions: ['delete'], prop: 'is_active', flex: 2},
+        {name: 'Street', prop: 'address_line1', cellTemplate: 'edit', flex: 2, sortable: true, filtering: true},
+        {name: 'City/State', prop: 'city', cellTemplate: 'edit', flex: 2, sortable: true, filtering: true},
+        {name: 'Country', prop: 'country', cellTemplate: 'edit', flex: 2, sortable: true, filtering: false},
+        {name: 'Postcode', prop: 'postcode', cellTemplate: 'edit', flex: 2, sortable: true, filtering: false},
+        {name: '', cellTemplate: 'actions', actions: [{label: '•••', value: '•••'}, {label: 'Delete', value: 'delete'}], prop: 'is_active', flex: 2},
       ]
     };
   }
