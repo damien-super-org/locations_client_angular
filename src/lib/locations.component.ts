@@ -163,7 +163,7 @@ export class LocationsComponent implements OnInit {
     this.locationsForm.detailsForm.get('longitude').patchValue(item.longitude);
     // move the marker of the map to the current coordinates
     this.moveMarker(item.latitude, item.longitude);
-    window.scroll(0, 200);
+    window.scroll(0, 150);
   }
 
   /**
